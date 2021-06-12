@@ -7,37 +7,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculator</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="script/main.js" defer></script>
 </head>
 
 <body>
     <div class="container">
         <div class="border">
             <div class="display">
-                <input type="text" readonly>
+                <input type="text" class="display-input" readonly>
             </div>
             <div class="operations">
-                <button class="sum-button">+</button>
+                <button class="sum-button operation-button">+</button>
     
-                <button class="sub-button">-</button>
+                <button class="sub-button operation-button">-</button>
     
-                <button class="mult-button">X</button>
+                <button class="mult-button operation-button">x</button>
     
-                <button class="div-button">&divide;</button>
+                <button class="div-button operation-button">&divide;</button>
             </div>
             <div class="numbers">
-                <button>7</button>
-                <button>8</button>
-                <button>9</button>
-                <button>4</button>
-                <button>5</button>
-                <button>6</button>
-                <button class="equal">=</button>
-                <button>1</button>
-                <button>2</button>
-                <button>3</button>
-                <button>0</button>
-                <button>.</button>
-                <button>C</button>
+                <button class="numbers-button">7</button>
+                <button class="numbers-button">8</button>
+                <button class="numbers-button">9</button>
+                <button class="numbers-button">4</button>
+                <button class="numbers-button">5</button>
+                <button class="numbers-button">6</button>
+                <button class="equal numbers-button">=</button>
+                <button class="numbers-button">1</button>
+                <button class="numbers-button">2</button>
+                <button class="numbers-button">3</button>
+                <button class="numbers-button">0</button>
+                <button class="numbers-button">.</button>
+                <button class="numbers-button clear-display">C</button>
             </div>
         </div>
     </div>
