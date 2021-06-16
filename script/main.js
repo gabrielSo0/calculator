@@ -9,71 +9,132 @@
 
 // }
 
+function Calculator() {
+    this.numbersButtons = document.querySelectorAll(".numbers-button");
+    this.operationsButtons = document.querySelectorAll(".operation-button");
+    
+    this.calculateSum = function(arrayOfValues) {
+        let total = 0;
+        arrayOfValues.forEach((value, index, array) => {
+            total += parseFloat(value);
+        })
 
-const numbers = document.querySelectorAll(".numbers-button");
-const operations = document.querySelectorAll(".operation-button");
-const display = document.querySelector(".display-input");
-let arrayOfValues = [];
-let valueAcumulated = "";
+        return total;
+    }
 
-operations.forEach((operation, index, array) => {
-    operation.addEventListener("click", (e) => {
-        if(operation.innerHTML == "+") {
-            display.value += operation.innerHTML;
-            if(display.value == "+")
-                return;
+    this.calculateSubtraction = function(arrayOfValues) {
+        let diferenca = 0;
+        let subtraendo = 0;
+        let minuendo = 0;
+        let primeiroValor = false;
+        arrayOfValues.forEach((value, index, array) => {
             
-            arrayOfValues.push(valueAcumulated);
-            valueAcumulated = "";
-            // arrayOfValues.forEach((value) => {
-            //     console.log(value);
-            // })
-            console.log(arrayOfValues);
-        }
+            if(!primeiroValor) {
+                minuendo = parseFloat(value);
+                primeiroValor = true;
+            } else {
+                subtraendo += value;
+            }
 
-        if(operation.innerHTML == "-") {
-            // aqui vem a subtração
-            console.log("subtração")
-        }
-        
-        if(operation.innerHTML == "x") {
-            // aqui vem a multiplicação
-            console.log("multiplicação")
-        }
+        });
 
-        if(operation.classList[0] == "div-button"){
-            // aqui vem a divisão
-            console.log("divisão")
-        }
-    })
-});
+        diferenca = minuendo - subtraendo;
 
+        return diferenca;
+    }
 
-numbers.forEach((button, index, array) => {
-    button.addEventListener("click", (e) => {
-        if(button.innerHTML == "C")
-            return;
-        
-        if(button.innerHTML == "=") {
-            let result = 0;
-            arrayOfValues.forEach((value, index, array) => {
-                console.log(value);
-                result += parseFloat(value);
-            })
+    this.calculateMultiplication = function(arrayOfValues) {
+        let product = 0;
+        arrayOfValues.forEach((value, index, array) => {
+            product *= parseFloat(value);
+        });
 
-            display.value = result;
-            return;
-        }
-        
-        display.value += button.innerHTML
+        return product;
+    }
 
-        valueAcumulated += button.innerHTML;
+    this.calculateDivision = function(arrayOfValues) {
+        let result = 0;
+        arrayOfValues.forEach((value, index, array) => {
+            result /= parseFloat(value);
+        });
 
-    })
-})
+        return result;
+    }
 
-function calculateSum(number) {
-    let result = 0;
-    return result = number + number;
 }
+
+const calculator = new Calculator();
+
+//console.log(calculator.numbersButtons);
+console.log(calculator.calculateSum([5, 5]));
+console.log(calculator.calculateSubtraction([50, 20, 20]));
+console.log(calculator.calculateMultiplication([2, 2]));
+console.log(calculator.calculateDivision([4, 2]));
+
+
+
+// const display = document.querySelector(".display-input");
+// let arrayOfValues = [];
+// let valueAcumulated = "";
+
+// operations.operationsButtons.forEach((operation, index, array) => {
+//     operation.addEventListener("click", (e) => {
+//         if(operation.innerHTML == "+") {
+//             display.value += operation.innerHTML;
+//             if(display.value == "+")
+//                 return;
+            
+//             arrayOfValues.push(valueAcumulated);
+//             valueAcumulated = "";
+//             // arrayOfValues.forEach((value) => {
+//             //     console.log(value);
+//             // })
+//             console.log(arrayOfValues);
+//         }
+
+//         if(operation.innerHTML == "-") {
+//             // aqui vem a subtração
+//             console.log("subtração")
+//         }
+        
+//         if(operation.innerHTML == "x") {
+//             // aqui vem a multiplicação
+//             console.log("multiplicação")
+//         }
+
+//         if(operation.classList[0] == "div-button"){
+//             // aqui vem a divisão
+//             console.log("divisão")
+//         }
+//     })
+// });
+
+
+// numbers.forEach((button, index, array) => {
+//     button.addEventListener("click", (e) => {
+//         if(button.innerHTML == "C")
+//             return;
+        
+//         if(button.innerHTML == "=") {
+//             let result = 0;
+//             arrayOfValues.forEach((value, index, array) => {
+//                 console.log(value);
+//                 result += parseFloat(value);
+//             })
+
+//             display.value = result;
+//             return;
+//         }
+        
+//         display.value += button.innerHTML
+
+//         valueAcumulated += button.innerHTML;
+
+//     })
+// })
+
+// function calculateSum(number) {
+//     let result = 0;
+//     return result = number + number;
+// }
 
