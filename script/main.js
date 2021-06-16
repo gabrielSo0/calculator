@@ -44,7 +44,7 @@ function Calculator() {
     }
 
     this.calculateMultiplication = function(arrayOfValues) {
-        let product = 0;
+        let product = 1;
         arrayOfValues.forEach((value, index, array) => {
             product *= parseFloat(value);
         });
@@ -54,11 +54,21 @@ function Calculator() {
 
     this.calculateDivision = function(arrayOfValues) {
         let result = 0;
+        let dividendo = 0;
+        let divisor = 0;
+        let primeiroValor = false;
         arrayOfValues.forEach((value, index, array) => {
-            result /= parseFloat(value);
+            if(!primeiroValor) {
+                dividendo = parseFloat(value);
+                primeiroValor = true;
+            } else {
+                divisor = parseFloat(value);
+                dividendo = dividendo / divisor; 
+            }
+            
         });
 
-        return result;
+        return dividendo;
     }
 
 }
@@ -68,8 +78,8 @@ const calculator = new Calculator();
 //console.log(calculator.numbersButtons);
 console.log(calculator.calculateSum([5, 5]));
 console.log(calculator.calculateSubtraction([50, 20, 20]));
-console.log(calculator.calculateMultiplication([2, 2]));
-console.log(calculator.calculateDivision([4, 2]));
+console.log(calculator.calculateMultiplication([2, 2, 5, 2]));
+console.log(calculator.calculateDivision([50, 2, 2]));
 
 
 
