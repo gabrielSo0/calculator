@@ -12,8 +12,12 @@
 function Calculator() {
     this.numbersButtons = document.querySelectorAll(".numbers-button");
     this.operationsButtons = document.querySelectorAll(".operation-button");
+    this.display = document.querySelector(".display-input");
     
     this.calculateSum = function(arrayOfValues) {
+        if(arrayOfValues.length == 1)
+            return 0;
+
         let total = 0;
         arrayOfValues.forEach((value, index, array) => {
             total += parseFloat(value);
@@ -23,6 +27,9 @@ function Calculator() {
     }
 
     this.calculateSubtraction = function(arrayOfValues) {
+        if(arrayOfValues.length == 1)
+            return 0;
+
         let diferenca = 0;
         let subtraendo = 0;
         let minuendo = 0;
@@ -53,7 +60,6 @@ function Calculator() {
     }
 
     this.calculateDivision = function(arrayOfValues) {
-        let result = 0;
         let dividendo = 0;
         let divisor = 0;
         let primeiroValor = false;
@@ -68,83 +74,226 @@ function Calculator() {
             
         });
 
-        return dividendo;
+        return divisor == 0 ? "Infinity" : dividendo;
+        
+    }
+
+    this.clearDisplay = function() {
+        this.display.value = "";
     }
 
 }
 
+
+function resetOperationsVariables () {
+    sum = false;
+    sub = false;
+    mult = false;
+    div = false;
+}
+
 const calculator = new Calculator();
+let arrayOfValues = [];
+let valueAcumulated = "";
+let result = 0;
+let sum = false;
+let sub = false;
+let mult = false;
+let div = false;
+let operation = "";
+let resultado = 0;
 
-//console.log(calculator.numbersButtons);
-console.log(calculator.calculateSum([5, 5]));
-console.log(calculator.calculateSubtraction([50, 20, 20]));
-console.log(calculator.calculateMultiplication([2, 2, 5, 2]));
-console.log(calculator.calculateDivision([50, 2, 2]));
 
+calculator.numbersButtons.forEach((buttons, index, array) => {
 
-
-// const display = document.querySelector(".display-input");
-// let arrayOfValues = [];
-// let valueAcumulated = "";
-
-// operations.operationsButtons.forEach((operation, index, array) => {
-//     operation.addEventListener("click", (e) => {
-//         if(operation.innerHTML == "+") {
-//             display.value += operation.innerHTML;
-//             if(display.value == "+")
-//                 return;
+    buttons.addEventListener("click", (e) => {
+        if(buttons.innerHTML == "c") {
+            calculator.clearDisplay();
+            arrayOfValues = [];
+            valueAcumulated = "";
+        } else if(buttons.innerHTML == "=") {
+            if(sum) {
+                if(valueAcumulated == "")
+                    return;
+                arrayOfValues.push(valueAcumulated);
+                result = calculator.calculateSum(arrayOfValues);
+                calculator.display.value = result;
+                resetOperationsVariables();
+            }
             
-//             arrayOfValues.push(valueAcumulated);
-//             valueAcumulated = "";
-//             // arrayOfValues.forEach((value) => {
-//             //     console.log(value);
-//             // })
-//             console.log(arrayOfValues);
-//         }
+            if(sub) {
+                if(valueAcumulated == "")
+                    return;
+                arrayOfValues.push(valueAcumulated);
+                result = calculator.calculateSubtraction(arrayOfValues);
+                calculator.display.value = result;
+                resetOperationsVariables();
+            }
 
-//         if(operation.innerHTML == "-") {
-//             // aqui vem a subtração
-//             console.log("subtração")
-//         }
+            if(mult) {
+                if(valueAcumulated == "")
+                    return;
+                arrayOfValues.push(valueAcumulated);
+                result = calculator.calculateMultiplication(arrayOfValues);
+                calculator.display.value = result;
+                resetOperationsVariables();
+            }
+
+            if(div) {
+                if(valueAcumulated == "")
+                    return;
+                arrayOfValues.push(valueAcumulated);
+                result = calculator.calculateDivision(arrayOfValues);
+                calculator.display.value = result;
+                resetOperationsVariables();
+            }
+
+        } else {
+            calculator.display.value += buttons.innerHTML;
+            valueAcumulated += buttons.innerHTML;
+        }
         
-//         if(operation.innerHTML == "x") {
-//             // aqui vem a multiplicação
-//             console.log("multiplicação")
-//         }
-
-//         if(operation.classList[0] == "div-button"){
-//             // aqui vem a divisão
-//             console.log("divisão")
-//         }
-//     })
-// });
+    })
+})
 
 
-// numbers.forEach((button, index, array) => {
-//     button.addEventListener("click", (e) => {
-//         if(button.innerHTML == "C")
-//             return;
+calculator.operationsButtons.forEach((operations, index, array) => {
+    operations.addEventListener("click", (e) => {
+
         
-//         if(button.innerHTML == "=") {
-//             let result = 0;
-//             arrayOfValues.forEach((value, index, array) => {
-//                 console.log(value);
-//                 result += parseFloat(value);
-//             })
 
-//             display.value = result;
-//             return;
-//         }
-        
-//         display.value += button.innerHTML
+        if(operations.innerHTML == "+") {
 
-//         valueAcumulated += button.innerHTML;
+            calculator.display.value += operations.innerHTML;
+            arrayOfValues.push(valueAcumulated);
+            resultado = calculator.calculateSum(arrayOfValues);
+            valueAcumulated = "";
 
-//     })
-// })
 
-// function calculateSum(number) {
-//     let result = 0;
-//     return result = number + number;
-// }
+            if(sub) {
+                resultado = calculator.calculateSubtraction(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
 
+            if(mult) {
+                resultado = calculator.calculateMultiplication(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(div) {
+                resultado = calculator.calculateDivision(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            resetOperationsVariables();
+            sum = true;
+
+            if(resultado > 0) {
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+        } else if (operations.innerHTML == "-") {
+            
+            calculator.display.value += operations.innerHTML;
+            arrayOfValues.push(valueAcumulated);
+            resultado = calculator.calculateSubtraction(arrayOfValues);
+            valueAcumulated = "";
+
+            if(sum) {
+                resultado = calculator.calculateSum(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(mult) {
+                resultado = calculator.calculateMultiplication(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(div) {
+                resultado = calculator.calculateDivision(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(resultado > 0) {
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            resetOperationsVariables();
+            sub = true;
+            
+            
+        } else if (operations.innerHTML == "x") {
+            
+            calculator.display.value += operations.innerHTML;
+            arrayOfValues.push(valueAcumulated);
+            resultado = calculator.calculateMultiplication(arrayOfValues);
+            valueAcumulated = "";
+
+            if(sum) {
+                resultado = calculator.calculateSum(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(sub) {
+                resultado = calculator.calculateSubtraction(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(div) {
+                resultado = calculator.calculateDivision(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(resultado > 0) {
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            resetOperationsVariables();
+            mult = true;
+
+        } else {
+            calculator.display.value += operations.innerHTML;
+            arrayOfValues.push(valueAcumulated);
+            resultado = calculator.calculateDivision(arrayOfValues);
+            valueAcumulated = "";
+
+            if(sum) {
+                resultado = calculator.calculateSum(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(sub) {
+                resultado = calculator.calculateSubtraction(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(mult) {
+                resultado = calculator.calculateMultiplication(arrayOfValues);
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            if(resultado > 0) {
+                arrayOfValues = [];
+                arrayOfValues.push(resultado);
+            }
+
+            resetOperationsVariables();
+            div = true;
+        }
+    })
+});
