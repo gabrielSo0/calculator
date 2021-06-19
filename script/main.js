@@ -1,14 +1,3 @@
-// class calculator {
-//     constructor(number) {
-//         this.number = number;
-//     }
-
-//     calculateSum() {
-//         return this.number + this.number 
-//     }
-
-// }
-
 function Calculator() {
     this.numbersButtons = document.querySelectorAll(".numbers-button");
     this.operationsButtons = document.querySelectorAll(".operation-button");
